@@ -1,6 +1,6 @@
 # XBangumi
 一个用来记录自己动画漫画观看进度的小项目
-使用到的技术：springboot\mybatis\shiro\thymeleaf\mysql
+使用到的技术：springboot\mybatis\shiro\thymeleaf\layui\mysql
 
 ## 数据库
 ### ER图
