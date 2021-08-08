@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>添加漫画进度</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">XBangumi</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <span>小班固米</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item"><a th:href="@{/adminuser}">用户管理</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">进度管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/animeschedule}">动画进度管理</a></dd>
+                        <dd><a th:href="@{/comicschedule}">漫画进度管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">动画信息管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/adminanime}">查看&修改动画条目</a></dd>
+                        <dd><a th:href="@{/addanime}">新增动画条目</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">漫画信息管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/admincomic}">查看&修改漫画条目</a></dd>
+                        <dd><a th:href="@{/addcomic}">新增漫画条目</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <form th:action="@{/userQueryComic/schedule}" method="post">
+            <input type="text" name="userQueryInput" required lay-verify="required" placeholder="搜索漫画名、作者、出版社" autocomplete="off" class="layui-input">
+            <div class="layui-form-mid layui-word-aux"><button type="submit" class="layui-btn layui-btn-primary">搜索</button></div>
+        </form>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>漫画封面</th>
+                <th>漫画名</th>
+                <th>作者</th>
+                <th>总页数</th>
+                <th>出版社</th>
+                <th>出版日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comic:${allComic}">
+                <td><img th:src="${comic.getCover()}"></td>
+                <td th:text="${comic.getComicName()}"></td>
+                <td th:text="${comic.getAuthor()}"></td>
+                <td th:text="${comic.getPage()}"></td>
+                <td th:text="${comic.getPress()}"></td>
+                <td th:text="${#dates.format(comic.getPublicationDate(),'yyyy-MM-dd')}"></td>
+                <td>
+                    <a th:href="@{/addcomicschdule/}+${comic.getComicId()}" class="layui-btn layui-btn-primary layui-border-green">添加进度</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function(){
+        var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function(othis){
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            }
+            ,menuRight: function(){
+                layer.open({
+                    type: 1
+                    ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    ,area: ['260px', '100%']
+                    ,offset: 'rt' //右上角
+                    ,anim: 5
+                    ,shadeClose: true
+                });
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
