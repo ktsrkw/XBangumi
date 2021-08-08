@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.dao.AnimeMapper">
+    <insert id="addAnAnime" parameterType="Anime">
+        insert into `anime`(`animeName`,`episode`,`playDate`,`director`,
+                            `company`,`poster`,`recordNumber`)
+        values (#{animeName},#{episode},#{playDate},#{director},
+                #{company},#{poster},#{recordNumber})
+    </insert>
+
+    <select id="getAllAnime" resultType="Anime">
+        select * from `anime` order by `animeId` desc
+    </select>
+
+    <select id="getAnimeById" parameterType="int" resultType="Anime">
+        select * from `anime` where `animeId` = #{animeId}
+    </select>
+
+    <update id="updateAnimeInfo" parameterType="Anime">
+        update `anime` set `animeName`=#{animeName},`episode`=#{episode},
+                           `playDate`=#{playDate},`director`=#{director},
+                           `company`=#{company},`poster`=#{poster},
+                           `recordNumber`=#{recordNumber}
+        where `animeId` = #{animeId}
+    </update>
+
+    <delete id="deleteAnAnime" parameterType="Integer">
+        delete from `anime` where `animeId`=#{animeId}
+    </delete>
+
+    <select id="getAnimeByUserInput" parameterType="String" resultType="Anime">
+        select * from `anime` where `animeName` like concat('%',#{userQueryInput},'%')
+                                or `director` like concat('%',#{userQueryInput},'%')
+                                or `company` like concat('%',#{userQueryInput},'%')
+        order by `animeId` desc
+    </select>
+
+    <select id="getAnimeByRecordNumber" parameterType="String" resultType="Anime">
+        select * from `anime` where `recordNumber` = #{recordNumber}
+    </select>
+</mapper>

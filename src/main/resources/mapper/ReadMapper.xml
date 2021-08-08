@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.dao.ReadMapper">
+    <select id="getAllReadInfo" resultType="Read">
+        select * from `read` order by `readId` desc
+    </select>
+
+    <select id="getReadInfoByUserId" parameterType="Integer" resultType="Read">
+        select * from `read` where `userId` = #{userId} order by `readId` desc
+    </select>
+
+    <select id="getReadInfoByUserIdAndState" parameterType="Integer" resultType="Read">
+        select * from `read` where `userId` = #{userId} and `currentState` = #{state} order by `readId` desc
+    </select>
+
+    <insert id="insertAReadInfoByCU" parameterType="Integer">
+        insert into `read`(`comicId`,`userId`,`currentPage`,`currentState`)
+        values (#{comicId},#{userId},0,1)
+    </insert>
+
+    <delete id="deleteAReadInfoByReadId" parameterType="Integer">
+        delete from `read` where `readId` = #{readId}
+    </delete>
+
+    <select id="getAReadInfoByReadId" parameterType="Integer" resultType="Read">
+        select * from `read` where `readId` = #{readId}
+    </select>
+
+    <update id="updateReadInfo" parameterType="Read">
+        update `read` set `currentPage`=#{currentPage},`currentState`=#{currentState},
+                          `score`=#{score},`comment`=#{comment}
+        where `readId` = #{readId}
+    </update>
+
+    <select id="getReadInfoByComicId" parameterType="Integer" resultType="Read">
+        select * from `read` where `comicId`=#{comicId}
+    </select>
+
+    <delete id="deleteReadInfosByUserId" parameterType="Integer">
+        delete from `read` where `userId` = #{userId}
+    </delete>
+</mapper>

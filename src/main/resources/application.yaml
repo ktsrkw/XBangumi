@@ -1,0 +1,15 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/xbgm?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+
+mybatis:
+  type-aliases-package: com.wt.pojo
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  port: 8080

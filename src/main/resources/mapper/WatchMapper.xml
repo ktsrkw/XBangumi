@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.dao.WatchMapper">
+    <select id="getAllWatchInfo" resultType="Watch">
+        select * from `watch` order by `watchId` desc
+    </select>
+
+    <select id="getWatchInfoByUserId" resultType="Watch">
+        select * from `watch` where `userId` = #{id} order by `watchId` desc
+    </select>
+
+    <select id="getWatchInfoByUserIdAndState" resultType="Watch">
+        select * from `watch` where `userId` = #{id} and `currentState` = #{state} order by `watchId` desc
+    </select>
+
+    <insert id="insertAWatchInfoByAW" parameterType="Integer">
+        insert into `watch`(`animeId`,`userId`,`currentEpisode`,`currentState`)
+        values (#{animeId},#{userId},0,1)
+    </insert>
+
+    <delete id="deleteAWatchInfoByWatchId" parameterType="Integer">
+        delete from `watch` where `watchId` = #{watchId}
+    </delete>
+
+    <select id="getWatchInfoByWatchId" parameterType="Integer" resultType="Watch">
+        select * from `watch` where `watchId`=#{watchId}
+    </select>
+
+    <update id="updateWatchInfo" parameterType="Watch">
+        update `watch` set `currentEpisode`=#{currentEpisode},`currentState`=#{currentState},
+                           `score`=#{score},`comment`=#{comment}
+                where `watchId` = #{watchId}
+    </update>
+
+    <select id="getWatchInfoByAnimeId" parameterType="Integer" resultType="Watch">
+        select * from `watch` where `animeId`=#{animeId}
+    </select>
+
+    <delete id="deleteWatchInfosByUserId" parameterType="Integer">
+        delete from `watch` where `userId`=#{userId}
+    </delete>
+</mapper>

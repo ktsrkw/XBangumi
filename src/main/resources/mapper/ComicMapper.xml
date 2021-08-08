@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wt.dao.ComicMapper">
+    <insert id="addAComic" parameterType="Comic">
+        insert into `comic`(`comicName`,`page`,`publicationDate`,`author`,
+                            `press`,`cover`,`isbn`)
+        values (#{comicName},#{page},#{publicationDate},#{author},
+                #{press},#{cover},#{isbn})
+    </insert>
+
+    <select id="getAllComic" resultType="Comic">
+        select * from `comic` order by `comicId` desc
+    </select>
+
+    <delete id="deleteAComicByComicId" parameterType="Integer">
+        delete from `comic` where `comicId`=#{comicId}
+    </delete>
+
+    <select id="getComicByComicId" parameterType="Integer" resultType="Comic">
+        select * from `comic` where `comicId`=#{comicId}
+    </select>
+
+    <update id="updateComicInfo" parameterType="Comic">
+        update `comic` set `comicName`=#{comicName},`page`=#{page},`publicationDate`=#{publicationDate},
+                     `author`=#{author},`press`=#{press},`cover`=#{cover},
+                           `isbn`=#{isbn}
+        where `comicId`=#{comicId}
+    </update>
+
+    <select id="getComicByUserInput" parameterType="String" resultType="Comic">
+        select * from `comic` where `comicName` like concat('%',#{userQueryInput},'%')
+                                or `author` like concat('%',#{userQueryInput},'%')
+                                or `press` like concat('%',#{userQueryInput},'%')
+        order by `comicId` desc
+    </select>
+
+    <select id="getComicByISBN" parameterType="String" resultType="Comic">
+        select * from `comic` where `isbn`=#{isbn}
+    </select>
+</mapper>
